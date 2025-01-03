@@ -1,0 +1,14 @@
+{
+  "name": "naveen/career-compass-admin-panel",
+  "description": "Admin panel for the career compass site",
+  "type": "project",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "phpmailer/phpmailer": "^6.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "CCA\\": ""
+    }
+  }
+}
