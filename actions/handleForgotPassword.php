@@ -35,7 +35,7 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 								'icon'     => 'bx bxs-check-circle',
 								'title'    => 'Success',
 								'text'     => 'OTP has been sent to your email!',
-								'redirect' => 'otp-verification-page.html',
+								'redirect' => 'templates/VerifyOtp/otpVerificationPage.html',
 							] );
 							exit;
 						}

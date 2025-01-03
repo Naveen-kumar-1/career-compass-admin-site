@@ -1,6 +1,7 @@
 <?php
 
 namespace CCA\actions;
+session_start();
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -13,33 +14,9 @@ class sendEmail {
 
 	public static function sendEmail( $email ) {
 
-		$otp = rand( 100000, 999999 );
+		$otp             = rand( 100000, 999999 );
+		$_SESSION['otp'] = $otp;
 
-		// Include database configuration
-		if ( file_exists( '../config.php' ) ) {
-			include '../config.php';
-		}
-
-		// Step 1: Check if the 'otp' column exists in the 'career-compass-admin' table
-		$checkColumnQuery = "SHOW COLUMNS FROM `career-compass-admin` LIKE 'otp'";
-		$result           = $conn->query( $checkColumnQuery );
-
-		if ( $result->num_rows == 0 ) {
-			// If 'otp' column does not exist, create it
-			$createColumnQuery = "ALTER TABLE `career-compass-admin` ADD COLUMN `otp` INT(6)";
-			if ( $conn->query( $createColumnQuery ) !== true ) {
-				return "Error: Column 'otp' could not be created.";
-			}
-		}
-
-		// Step 2: Update the OTP value for the given email
-		$updateQuery = "UPDATE `career-compass-admin` SET `otp` = ? WHERE `email` = ?";
-		$updateStmt  = $conn->prepare( $updateQuery );
-		if ( $updateStmt ) {
-			$updateStmt->bind_param( "is", $otp, $email );
-			$updateStmt->execute(); // Execute the query to update OTP
-			$updateStmt->close();
-		}
 
 		// Step 3: Send OTP via email using PHPMailer
 		$mail = new PHPMailer( true );
@@ -55,7 +32,7 @@ class sendEmail {
 			$mail->Port       = 587;
 
 			// Recipients
-			$mail->setFrom( 'codemavericknk@gmail.com', 'Your Company' );
+			$mail->setFrom( 'codemavericknk@gmail.com', 'Career - Compass' );
 			$mail->addAddress( $email );
 
 			// Content
