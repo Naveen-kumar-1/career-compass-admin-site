@@ -15,7 +15,7 @@ if ( isset( $data['otp'] ) ) {
 			'type'     => 'success',
 			'title'    => 'Success',
 			'text'     => 'OTP verified successfully',
-			'redirect' => 'actions/changePassword.php'
+			'redirect' => '../../actions/changePassword.php'
 		] );
 
 

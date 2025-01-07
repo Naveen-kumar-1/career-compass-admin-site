@@ -10,7 +10,7 @@ document.getElementById("otp-form").addEventListener("submit", function (e) {
 
     if (otp.length === 6) {
         // Make sure we have a full 6-digit OTP
-        fetch("actions/verifyOtp.php", {
+        fetch("../../actions/verifyOtp.php", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
