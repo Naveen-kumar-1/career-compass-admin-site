@@ -35,8 +35,10 @@ if ( ! isset( $_SESSION['logged_in'] ) || $_SESSION['logged_in'] !== true ) {
                 professional journeys. Whether you're managing career development tools, curating job opportunities, or
                 offering guidance, Career Compass provides the features you need to help users find their path. </p>
             <div class="admin-explore-bts">
-                <a href="#" class="course-btn">Edit Courses <i class='bx bx-right-arrow-alt'></i></a>
-                <a href="#" class="college-btn">Edit Colleges <i class='bx bx-right-arrow-alt'></i></a>
+                <a href="../Courses/Courses.php" class="course-btn">Edit Courses <i
+                            class='bx bx-right-arrow-alt'></i></a>
+                <a href="../Colleges/College.php" class="college-btn">Edit Colleges <i
+                            class='bx bx-right-arrow-alt'></i></a>
             </div>
         </div>
         <img src="../../images/admin-banner.gif"/>

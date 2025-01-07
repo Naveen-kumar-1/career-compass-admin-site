@@ -297,6 +297,7 @@
     display: flex;
     gap: 20px;
     text-decoration: none;
+    color: #fff;
 }
 
 .navbar-title p {
@@ -308,12 +309,19 @@
     display: flex;
     align-items: center;
     gap: 40px;
+
+}
+
+.nav-link a {
+    color: #fff;
+    text-decoration: none;
 }
 
 .nav-link {
     cursor: pointer;
     position: relative;
     transition: .3s;
+    color: #fff;
 }
 
 .nav-link a {
@@ -379,6 +387,7 @@
     .nav-link {
         font-size: 16px; /* Adjust font size for mobile */
         padding: 10px;
+        color: #fff;
     }
 
     #nav-menu {
@@ -537,5 +546,16 @@
 .row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
 
+}
+
+.col {
+    width: 100%;
+    background: white;
+    box-shadow: 1px 3px 10px rgba(0, 0, 0, 0.4);
+    margin: 30px;
+    padding: 20px; /* Adds padding inside the columns */
+    border-radius: 8px; /* Optional: Adds rounded corners */
+    height: fit-content; /* Keeps height based on content */
 }
