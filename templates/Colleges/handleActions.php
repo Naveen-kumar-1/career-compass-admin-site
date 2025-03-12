@@ -9,10 +9,23 @@ if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 	$college_type = mysqli_real_escape_string( $conn, $_POST['college_type'] );
 	$state        = mysqli_real_escape_string( $conn, $_POST['state'] );
 	$district     = mysqli_real_escape_string( $conn, $_POST['district'] );
+	$admissionData = mysqli_real_escape_string( $conn, $_POST['admission-data'] );
 	$star         = (int) $_POST['star'];
+if(!empty($admissionData)) {
+	// Check if the 'admission_data' column exists in the table
+	$checkColumnQuery = "SHOW COLUMNS FROM career_combass_colleges LIKE 'admission_data'";
+	$result           = mysqli_query( $conn, $checkColumnQuery );
 
-	// SQL query to update the college details
-	$query = "UPDATE career_combass_colleges SET university='$university', college='$college', college_type='$college_type', state='$state', district='$district', star=$star WHERE id=$college_id";
+	// If the 'admission_data' column doesn't exist, add it
+	if ( mysqli_num_rows( $result ) == 0 ) {
+		$alterTableQuery = "ALTER TABLE career_combass_colleges ADD admission_data TEXT";
+		mysqli_query( $conn, $alterTableQuery );
+	}
+}
+	// SQL query to update the college details including 'admission_data'
+	$query = "UPDATE career_combass_colleges 
+              SET university='$university', college='$college', college_type='$college_type', state='$state', district='$district', star=$star, admission_data='$admissionData' 
+              WHERE id=$college_id";
 
 	if ( mysqli_query( $conn, $query ) ) {
 		// Return success response

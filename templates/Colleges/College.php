@@ -171,7 +171,9 @@
 
 <div class="admin-colleges-container">
     <h1>These are the Colleges</h1>
-
+    <div style="text-align: center; margin-bottom: 20px;">
+        <button class="update-btn" id="create-new-btn">Create New College</button>
+    </div>
     <!-- Search Box -->
     <div class="search-box">
         <input type="text" id="search-input" placeholder="Search colleges by name..."/>
@@ -186,45 +188,90 @@
 		$query  = 'SELECT * FROM career_combass_colleges';
 		$result = mysqli_query( $conn, $query );
 
-		while ( $row = mysqli_fetch_assoc( $result ) ) {
-			?>
-            <div class="col" data-university="<?php echo htmlspecialchars( $row['university'] ); ?>"
-                 data-college="<?php echo htmlspecialchars( $row['college'] ); ?>">
-                <div class="college-col-title">
-                    <h3><?php echo htmlspecialchars( $row['university'] ); ?></h3>
-                    <div>
-                        <a href="#" class="edit-college-btn" data-id="<?php echo $row['id']; ?>"
-                           data-university="<?php echo $row['university']; ?>"
-                           data-college="<?php echo $row['college']; ?>"
-                           data-college_type="<?php echo $row['college_type']; ?>"
-                           data-state="<?php echo $row['state']; ?>" data-district="<?php echo $row['district']; ?>"
-                           data-star="<?php echo $row['star']; ?>">
-                            <i class='bx bx-edit' style="color: #3498db;"></i>
-                        </a>
-                        <a href="#" class="delete-college-btn" data-id="<?php echo $row['id']; ?>">
-                            <i class='bx bxs-trash' style="color: red"></i>
-                        </a>
-                    </div>
+
+while ( $row = mysqli_fetch_assoc( $result ) ) {
+    ?>
+        <div class="col" data-university="<?php echo htmlspecialchars( $row['university'] ); ?>"
+             data-college="<?php echo htmlspecialchars( $row['college'] ); ?>">
+            <div class="college-col-title">
+                <h3><?php echo htmlspecialchars( $row['university'] ); ?></h3>
+                <div>
+                    <a href="#" class="edit-college-btn" data-id="<?php echo $row['id']; ?>"
+                       data-university="<?php echo htmlspecialchars( $row['university'] ); ?>"
+                       data-college="<?php echo htmlspecialchars( $row['college'] ); ?>"
+                       data-college_type="<?php echo htmlspecialchars( $row['college_type'] ); ?>"
+                       data-state="<?php echo htmlspecialchars( $row['state'] ); ?>"
+                       data-district="<?php echo htmlspecialchars( $row['district'] ); ?>"
+                       data-star="<?php echo $row['star']; ?>"
+                        data-admission="<?php echo $row['admission_data']; ?>"
+                    >
+                        <i class='bx bx-edit' style="color: #3498db;"></i>
+                    </a>
+                    <a href="#" class="delete-college-btn" data-id="<?php echo $row['id']; ?>">
+                        <i class='bx bxs-trash' style="color: red"></i>
+                    </a>
                 </div>
-                <p><strong>College:</strong> <?php echo htmlspecialchars( $row['college'] ); ?></p>
-                <p><strong>Type:</strong> <?php echo htmlspecialchars( $row['college_type'] ); ?></p>
-                <p><strong>State:</strong> <?php echo htmlspecialchars( $row['state'] ); ?></p>
-                <p><strong>District:</strong> <?php echo htmlspecialchars( $row['district'] ); ?></p>
-				<?php
-				// Display star rating
-				$rating = $row['star'];
-				for ( $i = 1; $i <= 5; $i ++ ) {
-					if ( $i <= $rating ) {
-						echo '<span class="star filled">&#9733;</span>';
-					} else {
-						echo '<span class="star">&#9733;</span>';
-					}
-				}
-				?>
             </div>
-		<?php } ?>
+            <p><strong>College:</strong> <?php echo htmlspecialchars( $row['college'] ); ?></p>
+            <p><strong>Type:</strong> <?php echo htmlspecialchars( $row['college_type'] ); ?></p>
+            <p><strong>State:</strong> <?php echo htmlspecialchars( $row['state'] ); ?></p>
+            <p><strong>District:</strong> <?php echo htmlspecialchars( $row['district'] ); ?></p>
+
+		    <?php
+		    // Display star rating
+		    $rating = $row['star'];
+		    for ( $i = 1; $i <= 5; $i++ ) {
+			    if ( $i <= $rating ) {
+				    echo '<span class="star filled">&#9733;</span>';
+			    } else {
+				    echo '<span class="star">&#9733;</span>';
+			    }
+		    }
+
+		    // Check and display admission data if available
+		    if ( !empty( $row['admission_data'] ) ) {
+			    ?>
+                <p><strong>Admission Process: </strong><?php echo htmlspecialchars( $row['admission_data'] ); ?></p>
+			    <?php
+		    }
+		    ?>
+        </div>
+	    <?php } ?>
+
     </div>
 </div>
+<!-- Popup for Creating College -->
+<div id="create-popup" class="popup">
+    <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <h2>Create New College</h2>
+        <form id="create-college-form">
+            <div class="input-box">
+                <input type="text" id="create-university" name="university" placeholder="University Name" required>
+            </div>
+            <div class="input-box">
+                <input type="text" id="create-college" name="college" placeholder="College Name" required>
+            </div>
+            <div class="input-box">
+                <input type="text" id="create-college_type" name="college_type" placeholder="College Type" required>
+            </div>
+            <div class="input-box">
+                <input type="text" id="create-state" name="state" placeholder="State" required>
+            </div>
+            <div class="input-box">
+                <input type="text" id="create-district" name="district" placeholder="District" required>
+            </div>
+            <div class="input-box">
+                <input type="number" id="create-star" name="star" placeholder="Star Rating" min="1" max="5" required>
+            </div>
+            <div class="input-box">
+                <textarea name="admission-data" rows="5" style="width: 100%; height: 20vh;" placeholder="Admission Data"></textarea>
+            </div>
+            <button type="submit" class="update-btn">Create College</button>
+        </form>
+    </div>
+</div>
+
 
 <!-- Popup for Editing College -->
 <div id="edit-popup" class="popup">
@@ -250,6 +297,9 @@
             <div class="input-box">
                 <input type="number" id="star" name="star" placeholder="Star Rating" min="1" max="5" required>
             </div>
+          <p style="color: #333; font-size: 14px;">  (If admission going on) </p>
+            <div class="input-box">
+                <textarea name="admission-data" id="admission_data" rows="5" style="width: 100%; height: 20vh; border: 1px solid #333; outline: none;  color: #333; font-size: 16px"></textarea></div>
             <input type="hidden" id="college_id" name="college_id">
             <button type="submit" class="update-btn">Update College</button>
         </form>
@@ -257,12 +307,48 @@
 </div>
 
 <script>
+    // Show create college popup
+    document.getElementById('create-new-btn').addEventListener('click', function () {
+        document.getElementById('create-popup').style.display = 'flex';
+    });
+
+    // Close the popup when clicking the close button
+    document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+            document.getElementById('edit-popup').style.display = 'none';
+            document.getElementById('create-popup').style.display = 'none';
+        });
+    });
+
+    // Handle Create College form submission with AJAX
+    document.getElementById('create-college-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const formData = new FormData(this);
+
+        fetch('createCollege.php', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json()) // Parse JSON response
+            .then(data => {
+                createToast(data.type, data.icon, data.title, data.text);
+                document.getElementById('create-popup').style.display = 'none';
+                setTimeout(function () {
+                    location.reload();
+                }, 5000);
+            })
+            .catch(error => {
+                createToast('error', 'bx bx-x', 'Error', 'Failed to create college.');
+            });
+    });
+
     document.querySelectorAll('.edit-college-btn').forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
 
             // Get college details from data attributes
             const collegeDetails = this.dataset;
+            console.log(collegeDetails)
             document.getElementById('university').value = collegeDetails.university;
             document.getElementById('college').value = collegeDetails.college;
             document.getElementById('college_type').value = collegeDetails.college_type;
@@ -270,6 +356,8 @@
             document.getElementById('district').value = collegeDetails.district;
             document.getElementById('star').value = collegeDetails.star;
             document.getElementById('college_id').value = collegeDetails.id;
+            document.getElementById('admission_data').value = collegeDetails.admission;
+
 
             // Show the popup
             document.getElementById('edit-popup').style.display = 'flex';
@@ -331,7 +419,7 @@
             const collegeId = this.dataset.id;
 
             if (confirm('Are you sure you want to delete this college?')) {
-                fetch('handleActions.php', {
+                fetch('deleteCollege.php', {
                     method: 'POST',
                     body: JSON.stringify({delete_id: collegeId})
                 }).then(response => response.json())
